@@ -1,0 +1,797 @@
+[2025-11-19T12:22:39.636+0000] {local_task_job_runner.py:120} INFO - ::group::Pre task execution logs
+[2025-11-19T12:22:39.866+0000] {taskinstance.py:2073} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: cbr_daily_to_raw.load_cbr_daily_for_date scheduled__2025-10-03T21:00:00+00:00 [queued]>
+[2025-11-19T12:22:39.920+0000] {taskinstance.py:2073} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: cbr_daily_to_raw.load_cbr_daily_for_date scheduled__2025-10-03T21:00:00+00:00 [queued]>
+[2025-11-19T12:22:39.923+0000] {taskinstance.py:2303} INFO - Starting attempt 1 of 2
+[2025-11-19T12:22:40.236+0000] {taskinstance.py:2327} INFO - Executing <Task(_PythonDecoratedOperator): load_cbr_daily_for_date> on 2025-10-03 21:00:00+00:00
+[2025-11-19T12:22:40.288+0000] {standard_task_runner.py:90} INFO - Running: ['***', 'tasks', 'run', 'cbr_daily_to_raw', 'load_cbr_daily_for_date', 'scheduled__2025-10-03T21:00:00+00:00', '--job-id', '146', '--raw', '--subdir', 'DAGS_FOLDER/cbr_daily_to_raw.py', '--cfg-path', '/tmp/tmpub8xwoso']
+[2025-11-19T12:22:40.307+0000] {standard_task_runner.py:91} INFO - Job 146: Subtask load_cbr_daily_for_date
+[2025-11-19T12:22:40.299+0000] {logging_mixin.py:188} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:61 DeprecationWarning: This process (pid=559) is multi-threaded, use of fork() may lead to deadlocks in the child.
+[2025-11-19T12:22:40.312+0000] {standard_task_runner.py:63} INFO - Started process 575 to run task
+[2025-11-19T12:22:40.714+0000] {task_command.py:426} INFO - Running <TaskInstance: cbr_daily_to_raw.load_cbr_daily_for_date scheduled__2025-10-03T21:00:00+00:00 [running]> on host 2d463c30b66e
+[2025-11-19T12:22:41.490+0000] {taskinstance.py:2644} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='***' AIRFLOW_CTX_DAG_ID='cbr_daily_to_raw' AIRFLOW_CTX_TASK_ID='load_cbr_daily_for_date' AIRFLOW_CTX_EXECUTION_DATE='2025-10-03T21:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2025-10-03T21:00:00+00:00'
+[2025-11-19T12:22:41.493+0000] {taskinstance.py:430} INFO - ::endgroup::
+[2025-11-19T12:22:42.272+0000] {base.py:84} INFO - Using connection ID 'raw_postgres' for task execution.
+[2025-11-19T12:22:42.326+0000] {sql.py:457} INFO - Running statement: 
+            INSERT INTO raw.cbr_daily_xml (rate_date, payload)
+            VALUES (%s, %s::xml)
+            ON CONFLICT (rate_date) DO UPDATE
+              SET payload = EXCLUDED.payload,
+                  load_ts = now();
+            , parameters: (Date(2025, 10, 3), '<?xml version="1.0" encoding="windows-1251"?><ValCurs Date="03.10.2025" name="Foreign Currency Market"><Valute ID="R01010"><NumCode>036</NumCode><CharCode>AUD</CharCode><Nominal>1</Nominal><Name>Австралийский доллар</Name><Value>53,6195</Value><VunitRate>53,6195</VunitRate></Valute><Valute ID="R01020A"><NumCode>944</NumCode><CharCode>AZN</CharCode><Nominal>1</Nominal><Name>Азербайджанский манат</Name><Value>47,6521</Value><VunitRate>47,6521</VunitRate></Valute><Valute ID="R01030"><NumCode>012</NumCode><CharCode>DZD</CharCode><Nominal>100</Nominal><Name>Алжирских динаров</Name><Value>62,5697</Value><VunitRate>0,625697</VunitRate></Valute><Valute ID="R01035"><NumCode>826</NumCode><CharCode>GBP</CharCode><Nominal>1</Nominal><Name>Фунт стерлингов</Name><Value>109,4182</Value><VunitRate>109,4182</VunitRate></Valute><Valute ID="R01060"><NumCode>051</NumCode><CharCode>AMD</CharCode><Nominal>100</Nominal><Name>Армянских драмов</Name><Value>21,1323</Value><VunitRate>0,211323</VunitRate></Valute><Valute ID="R01080"><NumCode>048</NumCode><CharCode>BHD</CharCode><Nominal>1</Nominal><Name>Бахрейнский динар</Name><Value>215,4016</Value><VunitRate>215,4016</VunitRate></Valute><Valute ID="R01090B"><NumCode>933</NumCode><CharCode>BYN</CharCode><Nominal>1</Nominal><Name>Белорусский рубль</Name><Value>27,1049</Value><VunitRate>27,1049</VunitRate></Valute><Valute ID="R01100"><NumCode>975</NumCode><CharCode>BGN</CharCode><Nominal>1</Nominal><Name>Болгарский лев</Name><Value>48,5596</Value><VunitRate>48,5596</VunitRate></Valute><Valute ID="R01105"><NumCode>068</NumCode><CharCode>BOB</CharCode><Nominal>1</Nominal><Name>Боливиано</Name><Value>11,7234</Value><VunitRate>11,7234</VunitRate></Valute><Valute ID="R01115"><NumCode>986</NumCode><CharCode>BRL</CharCode><Nominal>1</Nominal><Name>Бразильский реал</Name><Value>15,2257</Value><VunitRate>15,2257</VunitRate></Valute><Valute ID="R01135"><NumCode>348</NumCode><CharCode>HUF</CharCode><Nominal>100</Nominal><Name>Форинтов</Name><Value>24,4547</Value><VunitRate>0,244547</VunitRate></Valute><Valute ID="R01150"><NumCode>704</NumCode><CharCode>VND</CharCode><Nominal>10000</Nominal><Name>Донгов</Name><Value>32,1756</Value><VunitRate>0,00321756</VunitRate></Valute><Valute ID="R01200"><NumCode>344</NumCode><CharCode>HKD</CharCode><Nominal>1</Nominal><Name>Гонконгский доллар</Name><Value>10,4298</Value><VunitRate>10,4298</VunitRate></Valute><Valute ID="R01210"><NumCode>981</NumCode><CharCode>GEL</CharCode><Nominal>1</Nominal><Name>Лари</Name><Value>29,7192</Value><VunitRate>29,7192</VunitRate></Valute><Valute ID="R01215"><NumCode>208</NumCode><CharCode>DKK</CharCode><Nominal>1</Nominal><Name>Датская крона</Name><Value>12,7212</Value><VunitRate>12,7212</VunitRate></Valute><Valute ID="R01230"><NumCode>784</NumCode><CharCode>AED</CharCode><Nominal>1</Nominal><Name>Дирхам ОАЭ</Name><Value>22,0581</Value><VunitRate>22,0581</VunitRate></Valute><Valute ID="R01235"><NumCode>840</NumCode><CharCode>USD</CharCode><Nominal>1</Nominal><Name>Доллар США</Name><Value>81,0085</Value><VunitRate>81,0085</VunitRate></Valute><Valute ID="R01239"><NumCode>978</NumCode><CharCode>EUR</CharCode><Nominal>1</Nominal><Name>Евро</Name><Value>95,3411</Value><VunitRate>95,3411</VunitRate></Valute><Valute ID="R01240"><NumCode>818</NumCode><CharCode>EGP</CharCode><Nominal>10</Nominal><Name>Египетских фунтов</Name><Value>16,9608</Value><VunitRate>1,69608</VunitRate></Valute><Valute ID="R01270"><NumCode>356</NumCode><CharCode>INR</CharCode><Nominal>100</Nominal><Name>Индийских рупий</Name><Value>91,3515</Value><VunitRate>0,913515</VunitRate></Valute><Valute ID="R01280"><NumCode>360</NumCode><CharCode>IDR</CharCode><Nominal>10000</Nominal><Name>Рупий</Name><Value>48,5662</Value><VunitRate>0,00485662</VunitRate></Valute><Valute ID="R01300"><NumCode>364</NumCode><CharCode>IRR</CharCode><Nominal>100000</Nominal><Name>Иранских риалов</Name><Value>13,9258</Value><VunitRate>0,000139258</VunitRate></Valute><Valute ID="R01335"><NumCode>398</NumCode><CharCode>KZT</CharCode><Nominal>100</Nominal><Name>Тенге</Name><Value>14,7516</Value><VunitRate>0,147516</VunitRate></Valute><Valute ID="R01350"><NumCode>124</NumCode><CharCode>CAD</CharCode><Nominal>1</Nominal><Name>Канадский доллар</Name><Value>58,1123</Value><VunitRate>58,1123</VunitRate></Valute><Valute ID="R01355"><NumCode>634</NumCode><CharCode>QAR</CharCode><Nominal>1</Nominal><Name>Катарский риал</Name><Value>22,2551</Value><VunitRate>22,2551</VunitRate></Valute><Valute ID="R01370"><NumCode>417</NumCode><CharCode>KGS</CharCode><Nominal>100</Nominal><Name>Сомов</Name><Value>92,6341</Value><VunitRate>0,926341</VunitRate></Valute><Valute ID="R01375"><NumCode>156</NumCode><CharCode>CNY</CharCode><Nominal>1</Nominal><Name>Юань</Name><Value>11,3342</Value><VunitRate>11,3342</VunitRate></Valute><Valute ID="R01395"><NumCode>192</NumCode><CharCode>CUP</CharCode><Nominal>10</Nominal><Name>Кубинских песо</Name><Value>33,7535</Value><VunitRate>3,37535</VunitRate></Valute><Valute ID="R01500"><NumCode>498</NumCode><CharCode>MDL</CharCode><Nominal>10</Nominal><Name>Молдавских леев</Name><Value>48,4968</Value><VunitRate>4,84968</VunitRate></Valute><Valute ID="R01503"><NumCode>496</NumCode><CharCode>MNT</CharCode><Nominal>1000</Nominal><Name>Тугриков</Name><Value>22,5478</Value><VunitRate>0,0225478</VunitRate></Valute><Valute ID="R01520"><NumCode>566</NumCode><CharCode>NGN</CharCode><Nominal>1000</Nominal><Name>Найр</Name><Value>54,9081</Value><VunitRate>0,0549081</VunitRate></Valute><Valute ID="R01530"><NumCode>554</NumCode><CharCode>NZD</CharCode><Nominal>1</Nominal><Name>Новозеландский доллар</Name><Value>47,1105</Value><VunitRate>47,1105</VunitRate></Valute><Valute ID="R01535"><NumCode>578</NumCode><CharCode>NOK</CharCode><Nominal>10</Nominal><Name>Норвежских крон</Name><Value>81,4672</Value><VunitRate>8,14672</VunitRate></Valute><Valute ID="R01540"><NumCode>512</NumCode><CharCode>OMR</CharCode><Nominal>1</Nominal><Name>Оманский риал</Name><Value>210,6853</Value><VunitRate>210,6853</VunitRate></Valute><Valute ID="R01565"><NumCode>985</NumCode><CharCode>PLN</CharCode><Nominal>1</Nominal><Name>Злотый</Name><Value>22,3719</Value><VunitRate>22,3719</VunitRate></Valute><Valute ID="R01580"><NumCode>682</NumCode><CharCode>SAR</CharCode><Nominal>1</Nominal><Name>Саудовский риял</Name><Value>21,6023</Value><VunitRate>21,6023</VunitRate></Valute><Valute ID="R01585F"><NumCode>946</NumCode><CharCode>RON</CharCode><Nominal>1</Nominal><Name>Румынский лей</Name><Value>18,7268</Value><VunitRate>18,7268</VunitRate></Valute><Valute ID="R01589"><NumCode>960</NumCode><CharCode>XDR</CharCode><Nominal>1</Nominal><Name>СДР (специальные права заимствования)</Name><Value>111,0643</Value><VunitRate>111,0643</VunitRate></Valute><Valute ID="R01625"><NumCode>702</NumCode><CharCode>SGD</CharCode><Nominal>1</Nominal><Name>Сингапурский доллар</Name><Value>62,8753</Value><VunitRate>62,8753</VunitRate></Valute><Valute ID="R01670"><NumCode>972</NumCode><CharCode>TJS</CharCode><Nominal>10</Nominal><Name>Сомони</Name><Value>86,4128</Value><VunitRate>8,64128</VunitRate></Valute><Valute ID="R01675"><NumCode>764</NumCode><CharCode>THB</CharCode><Nominal>10</Nominal><Name>Батов</Name><Value>24,9803</Value><VunitRate>2,49803</VunitRate></Valute><Valute ID="R01685"><NumCode>050</NumCode><CharCode>BDT</CharCode><Nominal>100</Nominal><Name>Так</Name><Value>66,4724</Value><VunitRate>0,664724</VunitRate></Valute><Valute ID="R01700J"><NumCode>949</NumCode><CharCode>TRY</CharCode><Nominal>10</Nominal><Name>Турецких лир</Name><Value>19,4964</Value><VunitRate>1,94964</VunitRate></Valute><Valute ID="R01710A"><NumCode>934</NumCode><CharCode>TMT</CharCode><Nominal>1</Nominal><Name>Новый туркменский манат</Name><Value>23,1453</Value><VunitRate>23,1453</VunitRate></Valute><Valute ID="R01717"><NumCode>860</NumCode><CharCode>UZS</CharCode><Nominal>10000</Nominal><Name>Узбекских сумов</Name><Value>67,0373</Value><VunitRate>0,00670373</VunitRate></Valute><Valute ID="R01720"><NumCode>980</NumCode><CharCode>UAH</CharCode><Nominal>10</Nominal><Name>Гривен</Name><Value>19,6259</Value><VunitRate>1,96259</VunitRate></Valute><Valute ID="R01760"><NumCode>203</NumCode><CharCode>CZK</CharCode><Nominal>10</Nominal><Name>Чешских крон</Name><Value>39,2902</Value><VunitRate>3,92902</VunitRate></Valute><Valute ID="R01770"><NumCode>752</NumCode><CharCode>SEK</CharCode><Nominal>10</Nominal><Name>Шведских крон</Name><Value>86,0626</Value><VunitRate>8,60626</VunitRate></Valute><Valute ID="R01775"><NumCode>756</NumCode><CharCode>CHF</CharCode><Nominal>1</Nominal><Name>Швейцарский франк</Name><Value>101,7439</Value><VunitRate>101,7439</VunitRate></Valute><Valute ID="R01800"><NumCode>230</NumCode><CharCode>ETB</CharCode><Nominal>100</Nominal><Name>Эфиопских быров</Name><Value>56,1985</Value><VunitRate>0,561985</VunitRate></Valute><Valute ID="R01805F"><NumCode>941</NumCode><CharCode>RSD</CharCode><Nominal>100</Nominal><Name>Сербских динаров</Name><Value>81,1421</Value><VunitRate>0,811421</VunitRate></Valute><Valute ID="R01810"><NumCode>710</NumCode><CharCode>ZAR</CharCode><Nominal>10</Nominal><Name>Рэндов</Name><Value>47,1630</Value><VunitRate>4,7163</VunitRate></Valute><Valute ID="R01815"><NumCode>410</NumCode><CharCode>KRW</CharCode><Nominal>1000</Nominal><Name>Вон</Name><Value>57,6163</Value><VunitRate>0,0576163</VunitRate></Valute><Valute ID="R01820"><NumCode>392</NumCode><CharCode>JPY</CharCode><Nominal>100</Nominal><Name>Иен</Name><Value>55,0442</Value><VunitRate>0,550442</VunitRate></Valute><Valute ID="R02005"><NumCode>104</NumCode><CharCode>MMK</CharCode><Nominal>1000</Nominal><Name>Кьятов</Name><Value>38,5755</Value><VunitRate>0,0385755</VunitRate></Valute></ValCurs>')
+[2025-11-19T12:22:42.332+0000] {sql.py:466} INFO - Rows affected: 1
+[2025-11-19T12:22:42.471+0000] {base.py:84} INFO - Using connection ID 'raw_postgres' for task execution.
+[2025-11-19T12:22:42.544+0000] {sql.py:457} INFO - Running statement: 
+            INSERT INTO raw.cbr_daily_rates
+                (rate_date, val_id, num_code, char_code, nominal, name, value)
+            VALUES (%s, %s, %s, %s, %s, %s, %s)
+            ON CONFLICT (rate_date, char_code) DO UPDATE
+              SET val_id  = EXCLUDED.val_id,
+                  num_code= EXCLUDED.num_code,
+                  nominal= EXCLUDED.nominal,
+                  name    = EXCLUDED.name,
+                  value   = EXCLUDED.value,
+                  load_ts = now();
+        , parameters: (Date(2025, 10, 3), 'R01010', '036', 'AUD', 1, 'Австралийский доллар', 53.6195)
+[2025-11-19T12:22:42.551+0000] {sql.py:466} INFO - Rows affected: 1
+[2025-11-19T12:22:42.649+0000] {base.py:84} INFO - Using connection ID 'raw_postgres' for task execution.
+[2025-11-19T12:22:42.718+0000] {sql.py:457} INFO - Running statement: 
+            INSERT INTO raw.cbr_daily_rates
+                (rate_date, val_id, num_code, char_code, nominal, name, value)
+            VALUES (%s, %s, %s, %s, %s, %s, %s)
+            ON CONFLICT (rate_date, char_code) DO UPDATE
+              SET val_id  = EXCLUDED.val_id,
+                  num_code= EXCLUDED.num_code,
+                  nominal= EXCLUDED.nominal,
+                  name    = EXCLUDED.name,
+                  value   = EXCLUDED.value,
+                  load_ts = now();
+        , parameters: (Date(2025, 10, 3), 'R01020A', '944', 'AZN', 1, 'Азербайджанский манат', 47.6521)
+[2025-11-19T12:22:42.728+0000] {sql.py:466} INFO - Rows affected: 1
+[2025-11-19T12:22:42.850+0000] {base.py:84} INFO - Using connection ID 'raw_postgres' for task execution.
+[2025-11-19T12:22:42.943+0000] {sql.py:457} INFO - Running statement: 
+            INSERT INTO raw.cbr_daily_rates
+                (rate_date, val_id, num_code, char_code, nominal, name, value)
+            VALUES (%s, %s, %s, %s, %s, %s, %s)
+            ON CONFLICT (rate_date, char_code) DO UPDATE
+              SET val_id  = EXCLUDED.val_id,
+                  num_code= EXCLUDED.num_code,
+                  nominal= EXCLUDED.nominal,
+                  name    = EXCLUDED.name,
+                  value   = EXCLUDED.value,
+                  load_ts = now();
+        , parameters: (Date(2025, 10, 3), 'R01030', '012', 'DZD', 100, 'Алжирских динаров', 62.5697)
+[2025-11-19T12:22:42.951+0000] {sql.py:466} INFO - Rows affected: 1
+[2025-11-19T12:22:43.075+0000] {base.py:84} INFO - Using connection ID 'raw_postgres' for task execution.
+[2025-11-19T12:22:43.154+0000] {sql.py:457} INFO - Running statement: 
+            INSERT INTO raw.cbr_daily_rates
+                (rate_date, val_id, num_code, char_code, nominal, name, value)
+            VALUES (%s, %s, %s, %s, %s, %s, %s)
+            ON CONFLICT (rate_date, char_code) DO UPDATE
+              SET val_id  = EXCLUDED.val_id,
+                  num_code= EXCLUDED.num_code,
+                  nominal= EXCLUDED.nominal,
+                  name    = EXCLUDED.name,
+                  value   = EXCLUDED.value,
+                  load_ts = now();
+        , parameters: (Date(2025, 10, 3), 'R01035', '826', 'GBP', 1, 'Фунт стерлингов', 109.4182)
+[2025-11-19T12:22:43.164+0000] {sql.py:466} INFO - Rows affected: 1
+[2025-11-19T12:22:43.280+0000] {base.py:84} INFO - Using connection ID 'raw_postgres' for task execution.
+[2025-11-19T12:22:43.328+0000] {sql.py:457} INFO - Running statement: 
+            INSERT INTO raw.cbr_daily_rates
+                (rate_date, val_id, num_code, char_code, nominal, name, value)
+            VALUES (%s, %s, %s, %s, %s, %s, %s)
+            ON CONFLICT (rate_date, char_code) DO UPDATE
+              SET val_id  = EXCLUDED.val_id,
+                  num_code= EXCLUDED.num_code,
+                  nominal= EXCLUDED.nominal,
+                  name    = EXCLUDED.name,
+                  value   = EXCLUDED.value,
+                  load_ts = now();
+        , parameters: (Date(2025, 10, 3), 'R01060', '051', 'AMD', 100, 'Армянских драмов', 21.1323)
+[2025-11-19T12:22:43.338+0000] {sql.py:466} INFO - Rows affected: 1
+[2025-11-19T12:22:43.444+0000] {base.py:84} INFO - Using connection ID 'raw_postgres' for task execution.
+[2025-11-19T12:22:43.482+0000] {sql.py:457} INFO - Running statement: 
+            INSERT INTO raw.cbr_daily_rates
+                (rate_date, val_id, num_code, char_code, nominal, name, value)
+            VALUES (%s, %s, %s, %s, %s, %s, %s)
+            ON CONFLICT (rate_date, char_code) DO UPDATE
+              SET val_id  = EXCLUDED.val_id,
+                  num_code= EXCLUDED.num_code,
+                  nominal= EXCLUDED.nominal,
+                  name    = EXCLUDED.name,
+                  value   = EXCLUDED.value,
+                  load_ts = now();
+        , parameters: (Date(2025, 10, 3), 'R01080', '048', 'BHD', 1, 'Бахрейнский динар', 215.4016)
+[2025-11-19T12:22:43.486+0000] {sql.py:466} INFO - Rows affected: 1
+[2025-11-19T12:22:43.561+0000] {base.py:84} INFO - Using connection ID 'raw_postgres' for task execution.
+[2025-11-19T12:22:43.638+0000] {sql.py:457} INFO - Running statement: 
+            INSERT INTO raw.cbr_daily_rates
+                (rate_date, val_id, num_code, char_code, nominal, name, value)
+            VALUES (%s, %s, %s, %s, %s, %s, %s)
+            ON CONFLICT (rate_date, char_code) DO UPDATE
+              SET val_id  = EXCLUDED.val_id,
+                  num_code= EXCLUDED.num_code,
+                  nominal= EXCLUDED.nominal,
+                  name    = EXCLUDED.name,
+                  value   = EXCLUDED.value,
+                  load_ts = now();
+        , parameters: (Date(2025, 10, 3), 'R01090B', '933', 'BYN', 1, 'Белорусский рубль', 27.1049)
+[2025-11-19T12:22:43.646+0000] {sql.py:466} INFO - Rows affected: 1
+[2025-11-19T12:22:43.825+0000] {base.py:84} INFO - Using connection ID 'raw_postgres' for task execution.
+[2025-11-19T12:22:43.863+0000] {sql.py:457} INFO - Running statement: 
+            INSERT INTO raw.cbr_daily_rates
+                (rate_date, val_id, num_code, char_code, nominal, name, value)
+            VALUES (%s, %s, %s, %s, %s, %s, %s)
+            ON CONFLICT (rate_date, char_code) DO UPDATE
+              SET val_id  = EXCLUDED.val_id,
+                  num_code= EXCLUDED.num_code,
+                  nominal= EXCLUDED.nominal,
+                  name    = EXCLUDED.name,
+                  value   = EXCLUDED.value,
+                  load_ts = now();
+        , parameters: (Date(2025, 10, 3), 'R01100', '975', 'BGN', 1, 'Болгарский лев', 48.5596)
+[2025-11-19T12:22:43.884+0000] {sql.py:466} INFO - Rows affected: 1
+[2025-11-19T12:22:43.987+0000] {base.py:84} INFO - Using connection ID 'raw_postgres' for task execution.
+[2025-11-19T12:22:44.020+0000] {sql.py:457} INFO - Running statement: 
+            INSERT INTO raw.cbr_daily_rates
+                (rate_date, val_id, num_code, char_code, nominal, name, value)
+            VALUES (%s, %s, %s, %s, %s, %s, %s)
+            ON CONFLICT (rate_date, char_code) DO UPDATE
+              SET val_id  = EXCLUDED.val_id,
+                  num_code= EXCLUDED.num_code,
+                  nominal= EXCLUDED.nominal,
+                  name    = EXCLUDED.name,
+                  value   = EXCLUDED.value,
+                  load_ts = now();
+        , parameters: (Date(2025, 10, 3), 'R01105', '068', 'BOB', 1, 'Боливиано', 11.7234)
+[2025-11-19T12:22:44.024+0000] {sql.py:466} INFO - Rows affected: 1
+[2025-11-19T12:22:44.107+0000] {base.py:84} INFO - Using connection ID 'raw_postgres' for task execution.
+[2025-11-19T12:22:44.161+0000] {sql.py:457} INFO - Running statement: 
+            INSERT INTO raw.cbr_daily_rates
+                (rate_date, val_id, num_code, char_code, nominal, name, value)
+            VALUES (%s, %s, %s, %s, %s, %s, %s)
+            ON CONFLICT (rate_date, char_code) DO UPDATE
+              SET val_id  = EXCLUDED.val_id,
+                  num_code= EXCLUDED.num_code,
+                  nominal= EXCLUDED.nominal,
+                  name    = EXCLUDED.name,
+                  value   = EXCLUDED.value,
+                  load_ts = now();
+        , parameters: (Date(2025, 10, 3), 'R01115', '986', 'BRL', 1, 'Бразильский реал', 15.2257)
+[2025-11-19T12:22:44.183+0000] {sql.py:466} INFO - Rows affected: 1
+[2025-11-19T12:22:44.261+0000] {base.py:84} INFO - Using connection ID 'raw_postgres' for task execution.
+[2025-11-19T12:22:44.294+0000] {sql.py:457} INFO - Running statement: 
+            INSERT INTO raw.cbr_daily_rates
+                (rate_date, val_id, num_code, char_code, nominal, name, value)
+            VALUES (%s, %s, %s, %s, %s, %s, %s)
+            ON CONFLICT (rate_date, char_code) DO UPDATE
+              SET val_id  = EXCLUDED.val_id,
+                  num_code= EXCLUDED.num_code,
+                  nominal= EXCLUDED.nominal,
+                  name    = EXCLUDED.name,
+                  value   = EXCLUDED.value,
+                  load_ts = now();
+        , parameters: (Date(2025, 10, 3), 'R01135', '348', 'HUF', 100, 'Форинтов', 24.4547)
+[2025-11-19T12:22:44.297+0000] {sql.py:466} INFO - Rows affected: 1
+[2025-11-19T12:22:44.343+0000] {base.py:84} INFO - Using connection ID 'raw_postgres' for task execution.
+[2025-11-19T12:22:44.384+0000] {sql.py:457} INFO - Running statement: 
+            INSERT INTO raw.cbr_daily_rates
+                (rate_date, val_id, num_code, char_code, nominal, name, value)
+            VALUES (%s, %s, %s, %s, %s, %s, %s)
+            ON CONFLICT (rate_date, char_code) DO UPDATE
+              SET val_id  = EXCLUDED.val_id,
+                  num_code= EXCLUDED.num_code,
+                  nominal= EXCLUDED.nominal,
+                  name    = EXCLUDED.name,
+                  value   = EXCLUDED.value,
+                  load_ts = now();
+        , parameters: (Date(2025, 10, 3), 'R01150', '704', 'VND', 10000, 'Донгов', 32.1756)
+[2025-11-19T12:22:44.389+0000] {sql.py:466} INFO - Rows affected: 1
+[2025-11-19T12:22:44.500+0000] {base.py:84} INFO - Using connection ID 'raw_postgres' for task execution.
+[2025-11-19T12:22:44.542+0000] {sql.py:457} INFO - Running statement: 
+            INSERT INTO raw.cbr_daily_rates
+                (rate_date, val_id, num_code, char_code, nominal, name, value)
+            VALUES (%s, %s, %s, %s, %s, %s, %s)
+            ON CONFLICT (rate_date, char_code) DO UPDATE
+              SET val_id  = EXCLUDED.val_id,
+                  num_code= EXCLUDED.num_code,
+                  nominal= EXCLUDED.nominal,
+                  name    = EXCLUDED.name,
+                  value   = EXCLUDED.value,
+                  load_ts = now();
+        , parameters: (Date(2025, 10, 3), 'R01200', '344', 'HKD', 1, 'Гонконгский доллар', 10.4298)
+[2025-11-19T12:22:44.551+0000] {sql.py:466} INFO - Rows affected: 1
+[2025-11-19T12:22:44.607+0000] {base.py:84} INFO - Using connection ID 'raw_postgres' for task execution.
+[2025-11-19T12:22:44.673+0000] {sql.py:457} INFO - Running statement: 
+            INSERT INTO raw.cbr_daily_rates
+                (rate_date, val_id, num_code, char_code, nominal, name, value)
+            VALUES (%s, %s, %s, %s, %s, %s, %s)
+            ON CONFLICT (rate_date, char_code) DO UPDATE
+              SET val_id  = EXCLUDED.val_id,
+                  num_code= EXCLUDED.num_code,
+                  nominal= EXCLUDED.nominal,
+                  name    = EXCLUDED.name,
+                  value   = EXCLUDED.value,
+                  load_ts = now();
+        , parameters: (Date(2025, 10, 3), 'R01210', '981', 'GEL', 1, 'Лари', 29.7192)
+[2025-11-19T12:22:44.697+0000] {sql.py:466} INFO - Rows affected: 1
+[2025-11-19T12:22:44.803+0000] {base.py:84} INFO - Using connection ID 'raw_postgres' for task execution.
+[2025-11-19T12:22:44.841+0000] {sql.py:457} INFO - Running statement: 
+            INSERT INTO raw.cbr_daily_rates
+                (rate_date, val_id, num_code, char_code, nominal, name, value)
+            VALUES (%s, %s, %s, %s, %s, %s, %s)
+            ON CONFLICT (rate_date, char_code) DO UPDATE
+              SET val_id  = EXCLUDED.val_id,
+                  num_code= EXCLUDED.num_code,
+                  nominal= EXCLUDED.nominal,
+                  name    = EXCLUDED.name,
+                  value   = EXCLUDED.value,
+                  load_ts = now();
+        , parameters: (Date(2025, 10, 3), 'R01215', '208', 'DKK', 1, 'Датская крона', 12.7212)
+[2025-11-19T12:22:44.849+0000] {sql.py:466} INFO - Rows affected: 1
+[2025-11-19T12:22:44.909+0000] {base.py:84} INFO - Using connection ID 'raw_postgres' for task execution.
+[2025-11-19T12:22:44.982+0000] {sql.py:457} INFO - Running statement: 
+            INSERT INTO raw.cbr_daily_rates
+                (rate_date, val_id, num_code, char_code, nominal, name, value)
+            VALUES (%s, %s, %s, %s, %s, %s, %s)
+            ON CONFLICT (rate_date, char_code) DO UPDATE
+              SET val_id  = EXCLUDED.val_id,
+                  num_code= EXCLUDED.num_code,
+                  nominal= EXCLUDED.nominal,
+                  name    = EXCLUDED.name,
+                  value   = EXCLUDED.value,
+                  load_ts = now();
+        , parameters: (Date(2025, 10, 3), 'R01230', '784', 'AED', 1, 'Дирхам ОАЭ', 22.0581)
+[2025-11-19T12:22:44.989+0000] {sql.py:466} INFO - Rows affected: 1
+[2025-11-19T12:22:45.074+0000] {base.py:84} INFO - Using connection ID 'raw_postgres' for task execution.
+[2025-11-19T12:22:45.134+0000] {sql.py:457} INFO - Running statement: 
+            INSERT INTO raw.cbr_daily_rates
+                (rate_date, val_id, num_code, char_code, nominal, name, value)
+            VALUES (%s, %s, %s, %s, %s, %s, %s)
+            ON CONFLICT (rate_date, char_code) DO UPDATE
+              SET val_id  = EXCLUDED.val_id,
+                  num_code= EXCLUDED.num_code,
+                  nominal= EXCLUDED.nominal,
+                  name    = EXCLUDED.name,
+                  value   = EXCLUDED.value,
+                  load_ts = now();
+        , parameters: (Date(2025, 10, 3), 'R01235', '840', 'USD', 1, 'Доллар США', 81.0085)
+[2025-11-19T12:22:45.164+0000] {sql.py:466} INFO - Rows affected: 1
+[2025-11-19T12:22:45.247+0000] {base.py:84} INFO - Using connection ID 'raw_postgres' for task execution.
+[2025-11-19T12:22:45.307+0000] {sql.py:457} INFO - Running statement: 
+            INSERT INTO raw.cbr_daily_rates
+                (rate_date, val_id, num_code, char_code, nominal, name, value)
+            VALUES (%s, %s, %s, %s, %s, %s, %s)
+            ON CONFLICT (rate_date, char_code) DO UPDATE
+              SET val_id  = EXCLUDED.val_id,
+                  num_code= EXCLUDED.num_code,
+                  nominal= EXCLUDED.nominal,
+                  name    = EXCLUDED.name,
+                  value   = EXCLUDED.value,
+                  load_ts = now();
+        , parameters: (Date(2025, 10, 3), 'R01239', '978', 'EUR', 1, 'Евро', 95.3411)
+[2025-11-19T12:22:45.321+0000] {sql.py:466} INFO - Rows affected: 1
+[2025-11-19T12:22:45.418+0000] {base.py:84} INFO - Using connection ID 'raw_postgres' for task execution.
+[2025-11-19T12:22:45.463+0000] {sql.py:457} INFO - Running statement: 
+            INSERT INTO raw.cbr_daily_rates
+                (rate_date, val_id, num_code, char_code, nominal, name, value)
+            VALUES (%s, %s, %s, %s, %s, %s, %s)
+            ON CONFLICT (rate_date, char_code) DO UPDATE
+              SET val_id  = EXCLUDED.val_id,
+                  num_code= EXCLUDED.num_code,
+                  nominal= EXCLUDED.nominal,
+                  name    = EXCLUDED.name,
+                  value   = EXCLUDED.value,
+                  load_ts = now();
+        , parameters: (Date(2025, 10, 3), 'R01240', '818', 'EGP', 10, 'Египетских фунтов', 16.9608)
+[2025-11-19T12:22:45.467+0000] {sql.py:466} INFO - Rows affected: 1
+[2025-11-19T12:22:45.545+0000] {base.py:84} INFO - Using connection ID 'raw_postgres' for task execution.
+[2025-11-19T12:22:45.610+0000] {sql.py:457} INFO - Running statement: 
+            INSERT INTO raw.cbr_daily_rates
+                (rate_date, val_id, num_code, char_code, nominal, name, value)
+            VALUES (%s, %s, %s, %s, %s, %s, %s)
+            ON CONFLICT (rate_date, char_code) DO UPDATE
+              SET val_id  = EXCLUDED.val_id,
+                  num_code= EXCLUDED.num_code,
+                  nominal= EXCLUDED.nominal,
+                  name    = EXCLUDED.name,
+                  value   = EXCLUDED.value,
+                  load_ts = now();
+        , parameters: (Date(2025, 10, 3), 'R01270', '356', 'INR', 100, 'Индийских рупий', 91.3515)
+[2025-11-19T12:22:45.616+0000] {sql.py:466} INFO - Rows affected: 1
+[2025-11-19T12:22:45.699+0000] {base.py:84} INFO - Using connection ID 'raw_postgres' for task execution.
+[2025-11-19T12:22:45.763+0000] {sql.py:457} INFO - Running statement: 
+            INSERT INTO raw.cbr_daily_rates
+                (rate_date, val_id, num_code, char_code, nominal, name, value)
+            VALUES (%s, %s, %s, %s, %s, %s, %s)
+            ON CONFLICT (rate_date, char_code) DO UPDATE
+              SET val_id  = EXCLUDED.val_id,
+                  num_code= EXCLUDED.num_code,
+                  nominal= EXCLUDED.nominal,
+                  name    = EXCLUDED.name,
+                  value   = EXCLUDED.value,
+                  load_ts = now();
+        , parameters: (Date(2025, 10, 3), 'R01280', '360', 'IDR', 10000, 'Рупий', 48.5662)
+[2025-11-19T12:22:45.776+0000] {sql.py:466} INFO - Rows affected: 1
+[2025-11-19T12:22:45.873+0000] {base.py:84} INFO - Using connection ID 'raw_postgres' for task execution.
+[2025-11-19T12:22:45.924+0000] {sql.py:457} INFO - Running statement: 
+            INSERT INTO raw.cbr_daily_rates
+                (rate_date, val_id, num_code, char_code, nominal, name, value)
+            VALUES (%s, %s, %s, %s, %s, %s, %s)
+            ON CONFLICT (rate_date, char_code) DO UPDATE
+              SET val_id  = EXCLUDED.val_id,
+                  num_code= EXCLUDED.num_code,
+                  nominal= EXCLUDED.nominal,
+                  name    = EXCLUDED.name,
+                  value   = EXCLUDED.value,
+                  load_ts = now();
+        , parameters: (Date(2025, 10, 3), 'R01300', '364', 'IRR', 100000, 'Иранских риалов', 13.9258)
+[2025-11-19T12:22:45.942+0000] {sql.py:466} INFO - Rows affected: 1
+[2025-11-19T12:22:46.015+0000] {base.py:84} INFO - Using connection ID 'raw_postgres' for task execution.
+[2025-11-19T12:22:46.040+0000] {sql.py:457} INFO - Running statement: 
+            INSERT INTO raw.cbr_daily_rates
+                (rate_date, val_id, num_code, char_code, nominal, name, value)
+            VALUES (%s, %s, %s, %s, %s, %s, %s)
+            ON CONFLICT (rate_date, char_code) DO UPDATE
+              SET val_id  = EXCLUDED.val_id,
+                  num_code= EXCLUDED.num_code,
+                  nominal= EXCLUDED.nominal,
+                  name    = EXCLUDED.name,
+                  value   = EXCLUDED.value,
+                  load_ts = now();
+        , parameters: (Date(2025, 10, 3), 'R01335', '398', 'KZT', 100, 'Тенге', 14.7516)
+[2025-11-19T12:22:46.045+0000] {sql.py:466} INFO - Rows affected: 1
+[2025-11-19T12:22:46.126+0000] {base.py:84} INFO - Using connection ID 'raw_postgres' for task execution.
+[2025-11-19T12:22:46.209+0000] {sql.py:457} INFO - Running statement: 
+            INSERT INTO raw.cbr_daily_rates
+                (rate_date, val_id, num_code, char_code, nominal, name, value)
+            VALUES (%s, %s, %s, %s, %s, %s, %s)
+            ON CONFLICT (rate_date, char_code) DO UPDATE
+              SET val_id  = EXCLUDED.val_id,
+                  num_code= EXCLUDED.num_code,
+                  nominal= EXCLUDED.nominal,
+                  name    = EXCLUDED.name,
+                  value   = EXCLUDED.value,
+                  load_ts = now();
+        , parameters: (Date(2025, 10, 3), 'R01350', '124', 'CAD', 1, 'Канадский доллар', 58.1123)
+[2025-11-19T12:22:46.228+0000] {sql.py:466} INFO - Rows affected: 1
+[2025-11-19T12:22:46.323+0000] {base.py:84} INFO - Using connection ID 'raw_postgres' for task execution.
+[2025-11-19T12:22:46.383+0000] {sql.py:457} INFO - Running statement: 
+            INSERT INTO raw.cbr_daily_rates
+                (rate_date, val_id, num_code, char_code, nominal, name, value)
+            VALUES (%s, %s, %s, %s, %s, %s, %s)
+            ON CONFLICT (rate_date, char_code) DO UPDATE
+              SET val_id  = EXCLUDED.val_id,
+                  num_code= EXCLUDED.num_code,
+                  nominal= EXCLUDED.nominal,
+                  name    = EXCLUDED.name,
+                  value   = EXCLUDED.value,
+                  load_ts = now();
+        , parameters: (Date(2025, 10, 3), 'R01355', '634', 'QAR', 1, 'Катарский риал', 22.2551)
+[2025-11-19T12:22:46.393+0000] {sql.py:466} INFO - Rows affected: 1
+[2025-11-19T12:22:46.481+0000] {base.py:84} INFO - Using connection ID 'raw_postgres' for task execution.
+[2025-11-19T12:22:46.515+0000] {sql.py:457} INFO - Running statement: 
+            INSERT INTO raw.cbr_daily_rates
+                (rate_date, val_id, num_code, char_code, nominal, name, value)
+            VALUES (%s, %s, %s, %s, %s, %s, %s)
+            ON CONFLICT (rate_date, char_code) DO UPDATE
+              SET val_id  = EXCLUDED.val_id,
+                  num_code= EXCLUDED.num_code,
+                  nominal= EXCLUDED.nominal,
+                  name    = EXCLUDED.name,
+                  value   = EXCLUDED.value,
+                  load_ts = now();
+        , parameters: (Date(2025, 10, 3), 'R01370', '417', 'KGS', 100, 'Сомов', 92.6341)
+[2025-11-19T12:22:46.526+0000] {sql.py:466} INFO - Rows affected: 1
+[2025-11-19T12:22:46.608+0000] {base.py:84} INFO - Using connection ID 'raw_postgres' for task execution.
+[2025-11-19T12:22:46.666+0000] {sql.py:457} INFO - Running statement: 
+            INSERT INTO raw.cbr_daily_rates
+                (rate_date, val_id, num_code, char_code, nominal, name, value)
+            VALUES (%s, %s, %s, %s, %s, %s, %s)
+            ON CONFLICT (rate_date, char_code) DO UPDATE
+              SET val_id  = EXCLUDED.val_id,
+                  num_code= EXCLUDED.num_code,
+                  nominal= EXCLUDED.nominal,
+                  name    = EXCLUDED.name,
+                  value   = EXCLUDED.value,
+                  load_ts = now();
+        , parameters: (Date(2025, 10, 3), 'R01375', '156', 'CNY', 1, 'Юань', 11.3342)
+[2025-11-19T12:22:46.675+0000] {sql.py:466} INFO - Rows affected: 1
+[2025-11-19T12:22:46.740+0000] {base.py:84} INFO - Using connection ID 'raw_postgres' for task execution.
+[2025-11-19T12:22:46.773+0000] {sql.py:457} INFO - Running statement: 
+            INSERT INTO raw.cbr_daily_rates
+                (rate_date, val_id, num_code, char_code, nominal, name, value)
+            VALUES (%s, %s, %s, %s, %s, %s, %s)
+            ON CONFLICT (rate_date, char_code) DO UPDATE
+              SET val_id  = EXCLUDED.val_id,
+                  num_code= EXCLUDED.num_code,
+                  nominal= EXCLUDED.nominal,
+                  name    = EXCLUDED.name,
+                  value   = EXCLUDED.value,
+                  load_ts = now();
+        , parameters: (Date(2025, 10, 3), 'R01395', '192', 'CUP', 10, 'Кубинских песо', 33.7535)
+[2025-11-19T12:22:46.777+0000] {sql.py:466} INFO - Rows affected: 1
+[2025-11-19T12:22:46.851+0000] {base.py:84} INFO - Using connection ID 'raw_postgres' for task execution.
+[2025-11-19T12:22:46.913+0000] {sql.py:457} INFO - Running statement: 
+            INSERT INTO raw.cbr_daily_rates
+                (rate_date, val_id, num_code, char_code, nominal, name, value)
+            VALUES (%s, %s, %s, %s, %s, %s, %s)
+            ON CONFLICT (rate_date, char_code) DO UPDATE
+              SET val_id  = EXCLUDED.val_id,
+                  num_code= EXCLUDED.num_code,
+                  nominal= EXCLUDED.nominal,
+                  name    = EXCLUDED.name,
+                  value   = EXCLUDED.value,
+                  load_ts = now();
+        , parameters: (Date(2025, 10, 3), 'R01500', '498', 'MDL', 10, 'Молдавских леев', 48.4968)
+[2025-11-19T12:22:46.917+0000] {sql.py:466} INFO - Rows affected: 1
+[2025-11-19T12:22:46.972+0000] {base.py:84} INFO - Using connection ID 'raw_postgres' for task execution.
+[2025-11-19T12:22:47.016+0000] {sql.py:457} INFO - Running statement: 
+            INSERT INTO raw.cbr_daily_rates
+                (rate_date, val_id, num_code, char_code, nominal, name, value)
+            VALUES (%s, %s, %s, %s, %s, %s, %s)
+            ON CONFLICT (rate_date, char_code) DO UPDATE
+              SET val_id  = EXCLUDED.val_id,
+                  num_code= EXCLUDED.num_code,
+                  nominal= EXCLUDED.nominal,
+                  name    = EXCLUDED.name,
+                  value   = EXCLUDED.value,
+                  load_ts = now();
+        , parameters: (Date(2025, 10, 3), 'R01503', '496', 'MNT', 1000, 'Тугриков', 22.5478)
+[2025-11-19T12:22:47.020+0000] {sql.py:466} INFO - Rows affected: 1
+[2025-11-19T12:22:47.081+0000] {base.py:84} INFO - Using connection ID 'raw_postgres' for task execution.
+[2025-11-19T12:22:47.149+0000] {sql.py:457} INFO - Running statement: 
+            INSERT INTO raw.cbr_daily_rates
+                (rate_date, val_id, num_code, char_code, nominal, name, value)
+            VALUES (%s, %s, %s, %s, %s, %s, %s)
+            ON CONFLICT (rate_date, char_code) DO UPDATE
+              SET val_id  = EXCLUDED.val_id,
+                  num_code= EXCLUDED.num_code,
+                  nominal= EXCLUDED.nominal,
+                  name    = EXCLUDED.name,
+                  value   = EXCLUDED.value,
+                  load_ts = now();
+        , parameters: (Date(2025, 10, 3), 'R01520', '566', 'NGN', 1000, 'Найр', 54.9081)
+[2025-11-19T12:22:47.162+0000] {sql.py:466} INFO - Rows affected: 1
+[2025-11-19T12:22:47.235+0000] {base.py:84} INFO - Using connection ID 'raw_postgres' for task execution.
+[2025-11-19T12:22:47.278+0000] {sql.py:457} INFO - Running statement: 
+            INSERT INTO raw.cbr_daily_rates
+                (rate_date, val_id, num_code, char_code, nominal, name, value)
+            VALUES (%s, %s, %s, %s, %s, %s, %s)
+            ON CONFLICT (rate_date, char_code) DO UPDATE
+              SET val_id  = EXCLUDED.val_id,
+                  num_code= EXCLUDED.num_code,
+                  nominal= EXCLUDED.nominal,
+                  name    = EXCLUDED.name,
+                  value   = EXCLUDED.value,
+                  load_ts = now();
+        , parameters: (Date(2025, 10, 3), 'R01530', '554', 'NZD', 1, 'Новозеландский доллар', 47.1105)
+[2025-11-19T12:22:47.283+0000] {sql.py:466} INFO - Rows affected: 1
+[2025-11-19T12:22:47.356+0000] {base.py:84} INFO - Using connection ID 'raw_postgres' for task execution.
+[2025-11-19T12:22:47.397+0000] {sql.py:457} INFO - Running statement: 
+            INSERT INTO raw.cbr_daily_rates
+                (rate_date, val_id, num_code, char_code, nominal, name, value)
+            VALUES (%s, %s, %s, %s, %s, %s, %s)
+            ON CONFLICT (rate_date, char_code) DO UPDATE
+              SET val_id  = EXCLUDED.val_id,
+                  num_code= EXCLUDED.num_code,
+                  nominal= EXCLUDED.nominal,
+                  name    = EXCLUDED.name,
+                  value   = EXCLUDED.value,
+                  load_ts = now();
+        , parameters: (Date(2025, 10, 3), 'R01535', '578', 'NOK', 10, 'Норвежских крон', 81.4672)
+[2025-11-19T12:22:47.409+0000] {sql.py:466} INFO - Rows affected: 1
+[2025-11-19T12:22:47.468+0000] {base.py:84} INFO - Using connection ID 'raw_postgres' for task execution.
+[2025-11-19T12:22:47.517+0000] {sql.py:457} INFO - Running statement: 
+            INSERT INTO raw.cbr_daily_rates
+                (rate_date, val_id, num_code, char_code, nominal, name, value)
+            VALUES (%s, %s, %s, %s, %s, %s, %s)
+            ON CONFLICT (rate_date, char_code) DO UPDATE
+              SET val_id  = EXCLUDED.val_id,
+                  num_code= EXCLUDED.num_code,
+                  nominal= EXCLUDED.nominal,
+                  name    = EXCLUDED.name,
+                  value   = EXCLUDED.value,
+                  load_ts = now();
+        , parameters: (Date(2025, 10, 3), 'R01540', '512', 'OMR', 1, 'Оманский риал', 210.6853)
+[2025-11-19T12:22:47.527+0000] {sql.py:466} INFO - Rows affected: 1
+[2025-11-19T12:22:47.599+0000] {base.py:84} INFO - Using connection ID 'raw_postgres' for task execution.
+[2025-11-19T12:22:47.646+0000] {sql.py:457} INFO - Running statement: 
+            INSERT INTO raw.cbr_daily_rates
+                (rate_date, val_id, num_code, char_code, nominal, name, value)
+            VALUES (%s, %s, %s, %s, %s, %s, %s)
+            ON CONFLICT (rate_date, char_code) DO UPDATE
+              SET val_id  = EXCLUDED.val_id,
+                  num_code= EXCLUDED.num_code,
+                  nominal= EXCLUDED.nominal,
+                  name    = EXCLUDED.name,
+                  value   = EXCLUDED.value,
+                  load_ts = now();
+        , parameters: (Date(2025, 10, 3), 'R01565', '985', 'PLN', 1, 'Злотый', 22.3719)
+[2025-11-19T12:22:47.650+0000] {sql.py:466} INFO - Rows affected: 1
+[2025-11-19T12:22:47.713+0000] {base.py:84} INFO - Using connection ID 'raw_postgres' for task execution.
+[2025-11-19T12:22:47.749+0000] {sql.py:457} INFO - Running statement: 
+            INSERT INTO raw.cbr_daily_rates
+                (rate_date, val_id, num_code, char_code, nominal, name, value)
+            VALUES (%s, %s, %s, %s, %s, %s, %s)
+            ON CONFLICT (rate_date, char_code) DO UPDATE
+              SET val_id  = EXCLUDED.val_id,
+                  num_code= EXCLUDED.num_code,
+                  nominal= EXCLUDED.nominal,
+                  name    = EXCLUDED.name,
+                  value   = EXCLUDED.value,
+                  load_ts = now();
+        , parameters: (Date(2025, 10, 3), 'R01580', '682', 'SAR', 1, 'Саудовский риял', 21.6023)
+[2025-11-19T12:22:47.753+0000] {sql.py:466} INFO - Rows affected: 1
+[2025-11-19T12:22:47.807+0000] {base.py:84} INFO - Using connection ID 'raw_postgres' for task execution.
+[2025-11-19T12:22:47.835+0000] {sql.py:457} INFO - Running statement: 
+            INSERT INTO raw.cbr_daily_rates
+                (rate_date, val_id, num_code, char_code, nominal, name, value)
+            VALUES (%s, %s, %s, %s, %s, %s, %s)
+            ON CONFLICT (rate_date, char_code) DO UPDATE
+              SET val_id  = EXCLUDED.val_id,
+                  num_code= EXCLUDED.num_code,
+                  nominal= EXCLUDED.nominal,
+                  name    = EXCLUDED.name,
+                  value   = EXCLUDED.value,
+                  load_ts = now();
+        , parameters: (Date(2025, 10, 3), 'R01585F', '946', 'RON', 1, 'Румынский лей', 18.7268)
+[2025-11-19T12:22:47.844+0000] {sql.py:466} INFO - Rows affected: 1
+[2025-11-19T12:22:47.898+0000] {base.py:84} INFO - Using connection ID 'raw_postgres' for task execution.
+[2025-11-19T12:22:47.936+0000] {sql.py:457} INFO - Running statement: 
+            INSERT INTO raw.cbr_daily_rates
+                (rate_date, val_id, num_code, char_code, nominal, name, value)
+            VALUES (%s, %s, %s, %s, %s, %s, %s)
+            ON CONFLICT (rate_date, char_code) DO UPDATE
+              SET val_id  = EXCLUDED.val_id,
+                  num_code= EXCLUDED.num_code,
+                  nominal= EXCLUDED.nominal,
+                  name    = EXCLUDED.name,
+                  value   = EXCLUDED.value,
+                  load_ts = now();
+        , parameters: (Date(2025, 10, 3), 'R01589', '960', 'XDR', 1, 'СДР (специальные права заимствования)', 111.0643)
+[2025-11-19T12:22:47.944+0000] {sql.py:466} INFO - Rows affected: 1
+[2025-11-19T12:22:48.008+0000] {base.py:84} INFO - Using connection ID 'raw_postgres' for task execution.
+[2025-11-19T12:22:48.047+0000] {sql.py:457} INFO - Running statement: 
+            INSERT INTO raw.cbr_daily_rates
+                (rate_date, val_id, num_code, char_code, nominal, name, value)
+            VALUES (%s, %s, %s, %s, %s, %s, %s)
+            ON CONFLICT (rate_date, char_code) DO UPDATE
+              SET val_id  = EXCLUDED.val_id,
+                  num_code= EXCLUDED.num_code,
+                  nominal= EXCLUDED.nominal,
+                  name    = EXCLUDED.name,
+                  value   = EXCLUDED.value,
+                  load_ts = now();
+        , parameters: (Date(2025, 10, 3), 'R01625', '702', 'SGD', 1, 'Сингапурский доллар', 62.8753)
+[2025-11-19T12:22:48.056+0000] {sql.py:466} INFO - Rows affected: 1
+[2025-11-19T12:22:48.129+0000] {base.py:84} INFO - Using connection ID 'raw_postgres' for task execution.
+[2025-11-19T12:22:48.158+0000] {sql.py:457} INFO - Running statement: 
+            INSERT INTO raw.cbr_daily_rates
+                (rate_date, val_id, num_code, char_code, nominal, name, value)
+            VALUES (%s, %s, %s, %s, %s, %s, %s)
+            ON CONFLICT (rate_date, char_code) DO UPDATE
+              SET val_id  = EXCLUDED.val_id,
+                  num_code= EXCLUDED.num_code,
+                  nominal= EXCLUDED.nominal,
+                  name    = EXCLUDED.name,
+                  value   = EXCLUDED.value,
+                  load_ts = now();
+        , parameters: (Date(2025, 10, 3), 'R01670', '972', 'TJS', 10, 'Сомони', 86.4128)
+[2025-11-19T12:22:48.163+0000] {sql.py:466} INFO - Rows affected: 1
+[2025-11-19T12:22:48.221+0000] {base.py:84} INFO - Using connection ID 'raw_postgres' for task execution.
+[2025-11-19T12:22:48.249+0000] {sql.py:457} INFO - Running statement: 
+            INSERT INTO raw.cbr_daily_rates
+                (rate_date, val_id, num_code, char_code, nominal, name, value)
+            VALUES (%s, %s, %s, %s, %s, %s, %s)
+            ON CONFLICT (rate_date, char_code) DO UPDATE
+              SET val_id  = EXCLUDED.val_id,
+                  num_code= EXCLUDED.num_code,
+                  nominal= EXCLUDED.nominal,
+                  name    = EXCLUDED.name,
+                  value   = EXCLUDED.value,
+                  load_ts = now();
+        , parameters: (Date(2025, 10, 3), 'R01675', '764', 'THB', 10, 'Батов', 24.9803)
+[2025-11-19T12:22:48.255+0000] {sql.py:466} INFO - Rows affected: 1
+[2025-11-19T12:22:48.290+0000] {base.py:84} INFO - Using connection ID 'raw_postgres' for task execution.
+[2025-11-19T12:22:48.331+0000] {sql.py:457} INFO - Running statement: 
+            INSERT INTO raw.cbr_daily_rates
+                (rate_date, val_id, num_code, char_code, nominal, name, value)
+            VALUES (%s, %s, %s, %s, %s, %s, %s)
+            ON CONFLICT (rate_date, char_code) DO UPDATE
+              SET val_id  = EXCLUDED.val_id,
+                  num_code= EXCLUDED.num_code,
+                  nominal= EXCLUDED.nominal,
+                  name    = EXCLUDED.name,
+                  value   = EXCLUDED.value,
+                  load_ts = now();
+        , parameters: (Date(2025, 10, 3), 'R01685', '050', 'BDT', 100, 'Так', 66.4724)
+[2025-11-19T12:22:48.335+0000] {sql.py:466} INFO - Rows affected: 1
+[2025-11-19T12:22:48.423+0000] {base.py:84} INFO - Using connection ID 'raw_postgres' for task execution.
+[2025-11-19T12:22:48.477+0000] {sql.py:457} INFO - Running statement: 
+            INSERT INTO raw.cbr_daily_rates
+                (rate_date, val_id, num_code, char_code, nominal, name, value)
+            VALUES (%s, %s, %s, %s, %s, %s, %s)
+            ON CONFLICT (rate_date, char_code) DO UPDATE
+              SET val_id  = EXCLUDED.val_id,
+                  num_code= EXCLUDED.num_code,
+                  nominal= EXCLUDED.nominal,
+                  name    = EXCLUDED.name,
+                  value   = EXCLUDED.value,
+                  load_ts = now();
+        , parameters: (Date(2025, 10, 3), 'R01700J', '949', 'TRY', 10, 'Турецких лир', 19.4964)
+[2025-11-19T12:22:48.499+0000] {sql.py:466} INFO - Rows affected: 1
+[2025-11-19T12:22:48.579+0000] {base.py:84} INFO - Using connection ID 'raw_postgres' for task execution.
+[2025-11-19T12:22:48.670+0000] {sql.py:457} INFO - Running statement: 
+            INSERT INTO raw.cbr_daily_rates
+                (rate_date, val_id, num_code, char_code, nominal, name, value)
+            VALUES (%s, %s, %s, %s, %s, %s, %s)
+            ON CONFLICT (rate_date, char_code) DO UPDATE
+              SET val_id  = EXCLUDED.val_id,
+                  num_code= EXCLUDED.num_code,
+                  nominal= EXCLUDED.nominal,
+                  name    = EXCLUDED.name,
+                  value   = EXCLUDED.value,
+                  load_ts = now();
+        , parameters: (Date(2025, 10, 3), 'R01710A', '934', 'TMT', 1, 'Новый туркменский манат', 23.1453)
+[2025-11-19T12:22:48.681+0000] {sql.py:466} INFO - Rows affected: 1
+[2025-11-19T12:22:48.761+0000] {base.py:84} INFO - Using connection ID 'raw_postgres' for task execution.
+[2025-11-19T12:22:48.807+0000] {sql.py:457} INFO - Running statement: 
+            INSERT INTO raw.cbr_daily_rates
+                (rate_date, val_id, num_code, char_code, nominal, name, value)
+            VALUES (%s, %s, %s, %s, %s, %s, %s)
+            ON CONFLICT (rate_date, char_code) DO UPDATE
+              SET val_id  = EXCLUDED.val_id,
+                  num_code= EXCLUDED.num_code,
+                  nominal= EXCLUDED.nominal,
+                  name    = EXCLUDED.name,
+                  value   = EXCLUDED.value,
+                  load_ts = now();
+        , parameters: (Date(2025, 10, 3), 'R01717', '860', 'UZS', 10000, 'Узбекских сумов', 67.0373)
+[2025-11-19T12:22:48.814+0000] {sql.py:466} INFO - Rows affected: 1
+[2025-11-19T12:22:48.960+0000] {base.py:84} INFO - Using connection ID 'raw_postgres' for task execution.
+[2025-11-19T12:22:49.046+0000] {sql.py:457} INFO - Running statement: 
+            INSERT INTO raw.cbr_daily_rates
+                (rate_date, val_id, num_code, char_code, nominal, name, value)
+            VALUES (%s, %s, %s, %s, %s, %s, %s)
+            ON CONFLICT (rate_date, char_code) DO UPDATE
+              SET val_id  = EXCLUDED.val_id,
+                  num_code= EXCLUDED.num_code,
+                  nominal= EXCLUDED.nominal,
+                  name    = EXCLUDED.name,
+                  value   = EXCLUDED.value,
+                  load_ts = now();
+        , parameters: (Date(2025, 10, 3), 'R01720', '980', 'UAH', 10, 'Гривен', 19.6259)
+[2025-11-19T12:22:49.079+0000] {sql.py:466} INFO - Rows affected: 1
+[2025-11-19T12:22:49.180+0000] {base.py:84} INFO - Using connection ID 'raw_postgres' for task execution.
+[2025-11-19T12:22:49.219+0000] {sql.py:457} INFO - Running statement: 
+            INSERT INTO raw.cbr_daily_rates
+                (rate_date, val_id, num_code, char_code, nominal, name, value)
+            VALUES (%s, %s, %s, %s, %s, %s, %s)
+            ON CONFLICT (rate_date, char_code) DO UPDATE
+              SET val_id  = EXCLUDED.val_id,
+                  num_code= EXCLUDED.num_code,
+                  nominal= EXCLUDED.nominal,
+                  name    = EXCLUDED.name,
+                  value   = EXCLUDED.value,
+                  load_ts = now();
+        , parameters: (Date(2025, 10, 3), 'R01760', '203', 'CZK', 10, 'Чешских крон', 39.2902)
+[2025-11-19T12:22:49.223+0000] {sql.py:466} INFO - Rows affected: 1
+[2025-11-19T12:22:49.279+0000] {base.py:84} INFO - Using connection ID 'raw_postgres' for task execution.
+[2025-11-19T12:22:49.316+0000] {sql.py:457} INFO - Running statement: 
+            INSERT INTO raw.cbr_daily_rates
+                (rate_date, val_id, num_code, char_code, nominal, name, value)
+            VALUES (%s, %s, %s, %s, %s, %s, %s)
+            ON CONFLICT (rate_date, char_code) DO UPDATE
+              SET val_id  = EXCLUDED.val_id,
+                  num_code= EXCLUDED.num_code,
+                  nominal= EXCLUDED.nominal,
+                  name    = EXCLUDED.name,
+                  value   = EXCLUDED.value,
+                  load_ts = now();
+        , parameters: (Date(2025, 10, 3), 'R01770', '752', 'SEK', 10, 'Шведских крон', 86.0626)
+[2025-11-19T12:22:49.329+0000] {sql.py:466} INFO - Rows affected: 1
+[2025-11-19T12:22:49.402+0000] {base.py:84} INFO - Using connection ID 'raw_postgres' for task execution.
+[2025-11-19T12:22:49.464+0000] {sql.py:457} INFO - Running statement: 
+            INSERT INTO raw.cbr_daily_rates
+                (rate_date, val_id, num_code, char_code, nominal, name, value)
+            VALUES (%s, %s, %s, %s, %s, %s, %s)
+            ON CONFLICT (rate_date, char_code) DO UPDATE
+              SET val_id  = EXCLUDED.val_id,
+                  num_code= EXCLUDED.num_code,
+                  nominal= EXCLUDED.nominal,
+                  name    = EXCLUDED.name,
+                  value   = EXCLUDED.value,
+                  load_ts = now();
+        , parameters: (Date(2025, 10, 3), 'R01775', '756', 'CHF', 1, 'Швейцарский франк', 101.7439)
+[2025-11-19T12:22:49.472+0000] {sql.py:466} INFO - Rows affected: 1
+[2025-11-19T12:22:49.645+0000] {base.py:84} INFO - Using connection ID 'raw_postgres' for task execution.
+[2025-11-19T12:22:49.681+0000] {sql.py:457} INFO - Running statement: 
+            INSERT INTO raw.cbr_daily_rates
+                (rate_date, val_id, num_code, char_code, nominal, name, value)
+            VALUES (%s, %s, %s, %s, %s, %s, %s)
+            ON CONFLICT (rate_date, char_code) DO UPDATE
+              SET val_id  = EXCLUDED.val_id,
+                  num_code= EXCLUDED.num_code,
+                  nominal= EXCLUDED.nominal,
+                  name    = EXCLUDED.name,
+                  value   = EXCLUDED.value,
+                  load_ts = now();
+        , parameters: (Date(2025, 10, 3), 'R01800', '230', 'ETB', 100, 'Эфиопских быров', 56.1985)
+[2025-11-19T12:22:49.686+0000] {sql.py:466} INFO - Rows affected: 1
+[2025-11-19T12:22:49.767+0000] {base.py:84} INFO - Using connection ID 'raw_postgres' for task execution.
+[2025-11-19T12:22:49.800+0000] {sql.py:457} INFO - Running statement: 
+            INSERT INTO raw.cbr_daily_rates
+                (rate_date, val_id, num_code, char_code, nominal, name, value)
+            VALUES (%s, %s, %s, %s, %s, %s, %s)
+            ON CONFLICT (rate_date, char_code) DO UPDATE
+              SET val_id  = EXCLUDED.val_id,
+                  num_code= EXCLUDED.num_code,
+                  nominal= EXCLUDED.nominal,
+                  name    = EXCLUDED.name,
+                  value   = EXCLUDED.value,
+                  load_ts = now();
+        , parameters: (Date(2025, 10, 3), 'R01805F', '941', 'RSD', 100, 'Сербских динаров', 81.1421)
+[2025-11-19T12:22:49.805+0000] {sql.py:466} INFO - Rows affected: 1
+[2025-11-19T12:22:49.866+0000] {base.py:84} INFO - Using connection ID 'raw_postgres' for task execution.
+[2025-11-19T12:22:49.895+0000] {sql.py:457} INFO - Running statement: 
+            INSERT INTO raw.cbr_daily_rates
+                (rate_date, val_id, num_code, char_code, nominal, name, value)
+            VALUES (%s, %s, %s, %s, %s, %s, %s)
+            ON CONFLICT (rate_date, char_code) DO UPDATE
+              SET val_id  = EXCLUDED.val_id,
+                  num_code= EXCLUDED.num_code,
+                  nominal= EXCLUDED.nominal,
+                  name    = EXCLUDED.name,
+                  value   = EXCLUDED.value,
+                  load_ts = now();
+        , parameters: (Date(2025, 10, 3), 'R01810', '710', 'ZAR', 10, 'Рэндов', 47.163)
+[2025-11-19T12:22:49.898+0000] {sql.py:466} INFO - Rows affected: 1
+[2025-11-19T12:22:49.941+0000] {base.py:84} INFO - Using connection ID 'raw_postgres' for task execution.
+[2025-11-19T12:22:49.974+0000] {sql.py:457} INFO - Running statement: 
+            INSERT INTO raw.cbr_daily_rates
+                (rate_date, val_id, num_code, char_code, nominal, name, value)
+            VALUES (%s, %s, %s, %s, %s, %s, %s)
+            ON CONFLICT (rate_date, char_code) DO UPDATE
+              SET val_id  = EXCLUDED.val_id,
+                  num_code= EXCLUDED.num_code,
+                  nominal= EXCLUDED.nominal,
+                  name    = EXCLUDED.name,
+                  value   = EXCLUDED.value,
+                  load_ts = now();
+        , parameters: (Date(2025, 10, 3), 'R01815', '410', 'KRW', 1000, 'Вон', 57.6163)
+[2025-11-19T12:22:49.978+0000] {sql.py:466} INFO - Rows affected: 1
+[2025-11-19T12:22:50.047+0000] {base.py:84} INFO - Using connection ID 'raw_postgres' for task execution.
+[2025-11-19T12:22:50.079+0000] {sql.py:457} INFO - Running statement: 
+            INSERT INTO raw.cbr_daily_rates
+                (rate_date, val_id, num_code, char_code, nominal, name, value)
+            VALUES (%s, %s, %s, %s, %s, %s, %s)
+            ON CONFLICT (rate_date, char_code) DO UPDATE
+              SET val_id  = EXCLUDED.val_id,
+                  num_code= EXCLUDED.num_code,
+                  nominal= EXCLUDED.nominal,
+                  name    = EXCLUDED.name,
+                  value   = EXCLUDED.value,
+                  load_ts = now();
+        , parameters: (Date(2025, 10, 3), 'R01820', '392', 'JPY', 100, 'Иен', 55.0442)
+[2025-11-19T12:22:50.083+0000] {sql.py:466} INFO - Rows affected: 1
+[2025-11-19T12:22:50.171+0000] {base.py:84} INFO - Using connection ID 'raw_postgres' for task execution.
+[2025-11-19T12:22:50.206+0000] {sql.py:457} INFO - Running statement: 
+            INSERT INTO raw.cbr_daily_rates
+                (rate_date, val_id, num_code, char_code, nominal, name, value)
+            VALUES (%s, %s, %s, %s, %s, %s, %s)
+            ON CONFLICT (rate_date, char_code) DO UPDATE
+              SET val_id  = EXCLUDED.val_id,
+                  num_code= EXCLUDED.num_code,
+                  nominal= EXCLUDED.nominal,
+                  name    = EXCLUDED.name,
+                  value   = EXCLUDED.value,
+                  load_ts = now();
+        , parameters: (Date(2025, 10, 3), 'R02005', '104', 'MMK', 1000, 'Кьятов', 38.5755)
+[2025-11-19T12:22:50.221+0000] {sql.py:466} INFO - Rows affected: 1
+[2025-11-19T12:22:50.243+0000] {python.py:237} INFO - Done. Returned value was: 55
+[2025-11-19T12:22:50.256+0000] {taskinstance.py:441} INFO - ::group::Post task execution logs
+[2025-11-19T12:22:50.381+0000] {taskinstance.py:1205} INFO - Marking task as SUCCESS. dag_id=cbr_daily_to_raw, task_id=load_cbr_daily_for_date, execution_date=20251003T210000, start_date=20251119T122239, end_date=20251119T122250
+[2025-11-19T12:22:50.484+0000] {local_task_job_runner.py:240} INFO - Task exited with return code 0
+[2025-11-19T12:22:50.610+0000] {taskinstance.py:3482} INFO - 0 downstream tasks scheduled from follow-on schedule check
+[2025-11-19T12:22:50.623+0000] {local_task_job_runner.py:222} INFO - ::endgroup::

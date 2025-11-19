@@ -1,0 +1,105 @@
+services:
+  postgres-raw:
+    image: postgres:16
+    container_name: postgres-raw
+    environment:
+      POSTGRES_USER: airflow
+      POSTGRES_PASSWORD: airflow
+      POSTGRES_DB: airflow
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./db/postgres_raw/init:/docker-entrypoint-initdb.d
+      - postgres_raw_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U airflow"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  airflow-init:
+    image: apache/airflow:2.9.0
+    container_name: airflow-init
+    user: "${AIRFLOW_UID:-50000}:0"
+    environment:
+      AIRFLOW__CORE__EXECUTOR: LocalExecutor
+      # ✅ валидный Fernet key (32 байта, base64, 44 символа)
+      AIRFLOW__CORE__FERNET_KEY: "pZp9n6uN4eW1U1zszbmWzxubUoilKx2oyS9MhUlCT3c="
+      AIRFLOW__CORE__DAGS_ARE_PAUSED_AT_CREATION: "true"
+      AIRFLOW__CORE__LOAD_EXAMPLES: "false"
+      AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://airflow:airflow@postgres-raw:5432/airflow
+      # ✅ любой рандомный секрет для webserver
+      AIRFLOW__WEBSERVER__SECRET_KEY: "CHANGE_ME_SUPER_SECRET_1234567890"
+      AIRFLOW__CORE__DEFAULT_TIMEZONE: "Europe/Moscow"
+    volumes:
+      - ./airflow/dags:/opt/airflow/dags
+      - ./airflow/logs:/opt/airflow/logs
+      - ./airflow/plugins:/opt/airflow/plugins
+    depends_on:
+      postgres-raw:
+        condition: service_healthy
+    entrypoint: /bin/bash
+    command:
+      - -c
+      - |
+        echo "Initializing Airflow DB..."
+        airflow db init
+        echo "Creating admin user..."
+        airflow users create \
+          --username admin \
+          --firstname Admin \
+          --lastname User \
+          --role Admin \
+          --email admin@example.com \
+          --password admin
+        echo "Airflow init done."
+    restart: "no"
+
+  airflow-webserver:
+    image: apache/airflow:2.9.0
+    container_name: airflow-webserver
+    user: "${AIRFLOW_UID:-50000}:0"
+    environment:
+      AIRFLOW__CORE__EXECUTOR: LocalExecutor
+      AIRFLOW__CORE__FERNET_KEY: "pZp9n6uN4eW1U1zszbmWzxubUoilKx2oyS9MhUlCT3c="
+      AIRFLOW__CORE__DAGS_ARE_PAUSED_AT_CREATION: "true"
+      AIRFLOW__CORE__LOAD_EXAMPLES: "false"
+      AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://airflow:airflow@postgres-raw:5432/airflow
+      AIRFLOW__WEBSERVER__SECRET_KEY: "CHANGE_ME_SUPER_SECRET_1234567890"
+      AIRFLOW__CORE__DEFAULT_TIMEZONE: "Europe/Moscow"
+    command: webserver
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./airflow/dags:/opt/airflow/dags
+      - ./airflow/logs:/opt/airflow/logs
+      - ./airflow/plugins:/opt/airflow/plugins
+    depends_on:
+      airflow-init:
+        condition: service_completed_successfully
+    restart: always
+
+  airflow-scheduler:
+    image: apache/airflow:2.9.0
+    container_name: airflow-scheduler
+    user: "${AIRFLOW_UID:-50000}:0"
+    environment:
+      AIRFLOW__CORE__EXECUTOR: LocalExecutor
+      AIRFLOW__CORE__FERNET_KEY: "pZp9n6uN4eW1U1zszbmWzxubUoilKx2oyS9MhUlCT3c="
+      AIRFLOW__CORE__DAGS_ARE_PAUSED_AT_CREATION: "true"
+      AIRFLOW__CORE__LOAD_EXAMPLES: "false"
+      AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://airflow:airflow@postgres-raw:5432/airflow
+      AIRFLOW__WEBSERVER__SECRET_KEY: "CHANGE_ME_SUPER_SECRET_1234567890"
+      AIRFLOW__CORE__DEFAULT_TIMEZONE: "Europe/Moscow"
+    command: scheduler
+    volumes:
+      - ./airflow/dags:/opt/airflow/dags
+      - ./airflow/logs:/opt/airflow/logs
+      - ./airflow/plugins:/opt/airflow/plugins
+    depends_on:
+      airflow-init:
+        condition: service_completed_successfully
+    restart: always
+
+volumes:
+  postgres_raw_data:

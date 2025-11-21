@@ -44,5 +44,33 @@ def create_raw_postgres_connection():
     upsert_connection(conn)
 
 
+def create_dwh_postgres_connection():
+    conn = Connection(
+        conn_id="dwh_postgres",
+        conn_type="postgres",
+        host="postgres-dwh",
+        schema="airflow",
+        login="airflow",
+        password="airflow",
+        port=5432,
+    )
+    upsert_connection(conn)
+
+
+def create_greenplum_connection():
+    conn = Connection(
+        conn_id="greenplum_dwh",
+        conn_type="postgres",
+        host="greenplum-dwh",
+        schema="dwh",
+        login="gpadmin",
+        password="gpadmin",
+        port=5432,
+    )
+    upsert_connection(conn)
+
+
 def main():
     create_raw_postgres_connection()
+    create_dwh_postgres_connection()
+    create_greenplum_connection()

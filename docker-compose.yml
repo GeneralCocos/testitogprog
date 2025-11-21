@@ -337,7 +337,7 @@ services:
     networks: [kafka_net]
 
   greenplum-dwh:
-    image: greenplum/greenplum-db:latest
+    image: pivotaldata/gpdb:latest
     container_name: greenplum-dwh
     environment:
       MASTER_DATA_DIRECTORY: /gpdata/master/gpseg-1

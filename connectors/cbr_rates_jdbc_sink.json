@@ -1,0 +1,21 @@
+{
+  "name": "cbr-rates-jdbc-sink",
+  "config": {
+    "connector.class": "io.confluent.connect.jdbc.JdbcSinkConnector",
+    "tasks.max": "1",
+    "topics": "postgres_raw.raw.cbr_daily_rates",
+    "connection.url": "jdbc:postgresql://postgres-dwh:5432/airflow",
+    "connection.user": "airflow",
+    "connection.password": "airflow",
+    "insert.mode": "upsert",
+    "pk.mode": "record_value",
+    "pk.fields": "rate_date,char_code",
+    "table.name.format": "dwh.stg_cbr_daily_rates",
+    "auto.create": "false",
+    "auto.evolve": "false",
+    "delete.enabled": "false",
+    "max.retries": "10",
+    "retry.backoff.ms": "10000",
+    "batch.size": "100"
+  }
+}

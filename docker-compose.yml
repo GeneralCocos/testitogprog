@@ -1,5 +1,3 @@
-version: "3.9"
-
 services:
   postgres-raw:
     image: postgres:16
@@ -24,6 +22,25 @@ services:
       -c max_replication_slots=10
       -c max_wal_senders=10
       -c max_connections=200
+    networks: [kafka_net]
+
+  postgres-dwh:
+    image: postgres:16
+    container_name: postgres-dwh
+    environment:
+      POSTGRES_USER: airflow
+      POSTGRES_PASSWORD: airflow
+      POSTGRES_DB: airflow
+    ports:
+      - "5433:5432"
+    volumes:
+      - ./db/postgres_dwh/init:/docker-entrypoint-initdb.d
+      - postgres_dwh_data:/var/lib/postgresql/data
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U airflow" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
     networks: [kafka_net]
 
   zookeeper-1:
@@ -319,6 +336,22 @@ services:
       REST_ADVERTISED_HOST_NAME: "kafka-connect"
     networks: [kafka_net]
 
+  greenplum-dwh:
+    image: greenplum/greenplum-db:latest
+    container_name: greenplum-dwh
+    environment:
+      MASTER_DATA_DIRECTORY: /gpdata/master/gpseg-1
+    ports:
+      - "6432:5432"
+    volumes:
+      - ./db/greenplum_dwh/init:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U gpadmin -h localhost -p 5432"]
+      interval: 15s
+      timeout: 10s
+      retries: 10
+    networks: [kafka_net]
+
   airflow-init:
     image: apache/airflow:2.9.0
     container_name: airflow-init
@@ -407,3 +440,4 @@ networks:
 
 volumes:
   postgres_raw_data:
+  postgres_dwh_data:

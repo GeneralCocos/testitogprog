@@ -1,5 +1,3 @@
-version: "3.9"
-
 services:
   postgres-raw:
     image: postgres:16
